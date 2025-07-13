@@ -1,0 +1,641 @@
+################# BASIC SYSTEM INSTALLATIONS #################
++ Remove unused apps
+sudo pacman -R gnome-calendar gnome-contacts simple-scan gnome-maps gnome-music gnome-software totem gnome-weather gnome-tour gnome-connections
+
++ Install more apps
+sudo pacman -S gnome-tweaks firefox vlc dconf-editor smplayer exfat-utils hdparm tldr papirus-icon-theme cdrkit yad iotop unrar libsass sassc dmidecode cpupower ntfs-3g clamav wireless-regdb pdfgrep foliate calibre gnome-epub-thumbnailer pdftk meld qbittorrent timeshift btrfs-progs syslinux ripgrep-all gnome-themes-extra gnome-browser-connector dictd gnome-dictionary mesa-utils libreoffice-fresh gnome-terminal pacman-contrib smartmontools noto-fonts-cjk zip
+
++ Install yay if needed:
+	git clone https://aur.archlinux.org/yay.git
+	cd yay
+	makepkg -si
+	yay --version
+
++ Install other apps:
+	#sudo pacman -S gnome-boxes
+	yay -S debtap freedownloadmanager adwaita-qt5 adwaita-qt6 brave-bin
+	sudo debtap -u
+	//Incase of any of the above packages can't be install, download it and then use: debtab pkgname.deb to create an pkgname.zst.  Then we can use: sudo pacman -U pkgname.zst to install the package.
+
++ Install other Asian fonts:
+	#sudo pacman -S ttf-arphic-ukai ttf-arphic-uming opendesktop-fonts ttf-hannom otf-ipafont ttf-hanazono ttf-sazanami adobe-source-han-sans-kr-fonts ttf-baekmuk ttf-indic-otf ttf-khmer noto-fonts noto-fonts-extra noto-fonts-extra 
+	
+	#sudo pacman -S adobe-source-han-sans-hk-fonts adobe-source-han-sans-kr-fonts adobe-source-han-sans-tw-fonts adobe-source-han-serif-hk-fonts adobe-source-han-serif-kr-fonts adobe-source-han-serif-tw-fonts adobe-source-han-sans-jp-fonts adobe-source-han-serif-jp-fonts adobe-source-han-sans-cn-fonts adobe-source-han-sans-tw-fonts adobe-source-han-sans-hk-fonts adobe-source-han-serif-cn-fonts adobe-source-han-serif-tw-fonts adobe-source-han-serif-hk-fonts adobe-source-han-sans-jp-fonts adobe-source-han-serif-jp-fonts
+
++ Copy  fonts
+sudo cp -R Roboto-Condensed /usr/share/fonts/
+
++ Change CPU Error M910q E-2286M:  
+sudo nano /etc/default/grub edit: GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet splash mce=nobootlog "
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+
++ Configure cpupower:
+- List all cpu scaling_available_governors: sudo cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors
+- Get current mode: sudo cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+- Change settings: sudo nano /etc/default/cpupower -> change governor='powersave'; min_freq="0.8GHz" max_freq="5GHz"
+- Enable cpupower service: sudo systemctl enable cpupower
+- Start service: sudo systemctl start cpupower
+
+################# DISPLAY DRIVERS #################
++ For intel VGA: 
+sudo pacman -S vulkan-intel intel-media-driver
+#sudo pacman -S libvdpau-va-gl libva-utils vdpauinfo
+#sudo nano /etc/environment and add:
+	LIBVA_DRIVER_NAME=iHD 
+	VDPAU_DRIVER=va_gl
+#sudo pacman -S intel-media-driver mesa-vdpau libva-mesa-driver libva-vdpau-driver
+#sudo pacman -R xf86-video-ati xf86-video-amdgpu xf86-video-nouveau xf86-video-voodoo
+
++ For AMD:
+#sudo pacman -S xf86-video-amdgpu vulkan-radeon vulkan-mesa-layers
+
++ To verify hardware rendering: reboot then
+glxinfo | grep "direct rendering"
+
+################# GNOME EXTENSIONS #################
++ Gnome enable/disable animation:
+	gsettings set org.gnome.desktop.interface enable-animations false
++ Gnome shell extensions - disable version validation:
+	gsettings set org.gnome.shell disable-extension-version-validation "true"
+	gsettings set org.gnome.mutter center-new-windows "true"
++ Gnome shell extensions: (using Firefox with Gnome extensions for only current users - safer!!!)
+	AppIndicator and KStatusNotifierItem Support by 3v1n0
+	Dash to Panel by charlesg99
+	CHC-E (Custom Hot Corners - Extended) by GdH
+	
+	Rounded Window Corners Reborn by flexagoon
+	Gtk4 Desktop Icons NG (DING) by smedius
+	Arch Linux Updates Indicator by RaphaelR
+	Clipboard Indicator by Tudmotu
+	Tiling Assistant by Leleat
+
+	Dash to Dock by michele_g
+	DashBar task bar by fthx
+	Hide Top Bar by tuxor1337
+	Rounded Window Corners Reborn by flexagoon
+
++ Install Gnome extention for all users:
+	sudo pacman -S gnome-shell-extension-appindicator gnome-shell-extension-dash-to-panel gnome-shell-extension-desktop-icons-ng
+	yay -S gnome-shell-extension-arch-update 
+	yay -Ss gnome-shell-extension-custom-hot-corners
+	yay -Ss gnome-shell-extension-rounded-window-corners
+	yay -Ss gnome-shell-extension-tiling-assistant
+	yay -Ss gnome-shell-extension-clipboard-indicator
+
+################# COPY PRESETTINGS #################
++ QT app theme:
+	echo "[Qt]" >> ~/.config/Trolltech.conf
+	echo "style=Adwaita-Dark" >> ~/.config/Trolltech.conf
+	echo "export QT_STYLE_OVERRIDE=Adwaita-Dark" >> ~/.bash_profile
+	echo "export MOZ_ENABLE_WAYLAND=1" >> ~/.bash_profile
+
++ Launch Firefox and sign in to Firefox account to load all settings and bookmarks
+
++ Open Brave, and close it and copy Brave's settings:
+	cp ./Brave/Local\ State ~/.config/BraveSoftware/Brave-Browser/
+	cp ./Brave/Preferences ~/.config/BraveSoftware/Brave-Browser/Default
+
++ Copy preconfigured vlc smplayer settings
+	cp -Rf  vlc ~/.config/
+	mkdir -p ~/.local/share/vlc/lua/extensions/
+	cp vlc-delete.lua ~/.local/share/vlc/lua/extensions/
+	cp -Rf  smplayer ~/.config/
+
++ Copy VLC remove file extension: 
+	mkdir -p ~/.local/share/vlc/lua/extensions/
+	cp vlc-delete.lua ~/.local/share/vlc/lua/extensions/
+
+################# SOUND SAMPLE RATE - OLD #################
++ Change default audio sample rate
+sudo nano /etc/pulse/daemon.conf: default-sample-format = s32le, default-sample-rate = 96000, alternate-sample-rate = 48000
+Restart audio service: pulseaudio -k
+Check current bitrate: pactl list sink-inputs, pactl list sources
+
+################# VIETNAMESE KEYBOARD #################
+yay -S  ibus-bamboo ibus-daemon 
+restart/logout rồi thêm keyboard Vietnamese(Bamboo)
+If needed: env DCONF_PROFILE=ibus dconf write /desktop/ibus/general/preload-engines "['BambooUs', 'Bamboo']" && gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('ibus', 'Bamboo')]"
+
+
+################# GNOME SETTINGS #################
++ Use gnome-tweaks to select icons Papirus-Dark, set window titlebar, system fonts...
++ Use dconf app to change Gnome settings if needed
++ Use dconf command to:
+	- Reset all gnome: dconf reset -f /
+	- Dump all settings: dconf dump / > dconf.dump
+	- Load settings: dconf load / < dconf.dump
++ Gnome app grid:
+	Remove app icon:
+		- can be removed by removing .desktop files in ~/.local/share/applications or in /usr/share/applications
+		- then update mime-cache: 
+			update-mime-database ~/.local/share/mime # personal
+			sudo update-mime-database /usr/share/mime     # system-wide
+
+################# BLUETOOTH SERVICE #################
+	Get status: systemctl status bluetooth
+	Enable service: sudo systemctl enable bluetooth
+	Start service: sudo systemctl start bluetooth
+
+################# CREATING SNAPSHOT FOR CURRENT SYSTEM #################
++ To make Timeshift work, UUID shoud be used in /etc/fstab:
+	- To generate UUID fstab version: genfstab -U /
+	- Then replace all items in fstab using UUID
+
+################# PACMAN #################
++ Update Arch keyring: sudo pacman -Sy archlinux-keyring
+
++ Keep using old Arch version (for example keep using lastest GNOME 46 -> use Arch 01/08/2024):
+	sudo nano sudo nano /etc/pacman.d/mirrorlist:
+		Server = https://archive.archlinux.org/repos/2024/08/01/$repo/os/$arch
+	sudo nano /etc/pacman.conf add:
+		IgnorePkg   = mutter tracker3 tinysparql
+		IgnoreGroup = gnome
+
++ List all orphan apps: sudo pacman -Qqtd
++ Use pamac to remove orphan apps or: sudo pacman -Qtdq | sudo pacman -Rns -
++ Remove an app and all dependencies:
+	sudo pacman -Rcns app_name
++ Enable multilibs in pacman: sudo nano /etc/pacman.conf and uncomment:
+		[multilib]
+		Include = /etc/pacman.d/mirrorlist
++ Pacman command options:
+	- Update:
+		sudo pacman -Sy
+		sudo pacman -Syu
+	- Clear:
+		sudo pacman -Sc
+	- Remove package:
+		sudo pacman -R pkgname
+	- Remove package and all it's dependencies
+		sudo pacman -Rcns pkgname
+	- Install a package
+		sudo pacman -S pkgname
+	- Install local package:
+		sudo pacman -U pkgname
+	- Search for a package:
+		sudo pacman -Ss pkgname
+		pacsearch -n ^name
+		pacsearch -n name
+	- Search for an installed package:
+		sudo pacman -Q pkgname
+		sudo pacman -Qi pkgname
+	- Search all orphans
+		sudo pacman -Qdt
+	- Remove all orphans recursively:
+		sudo pacman -Qtdq | sudo pacman -Rns -
+	- To generate mirror lists go to https://archlinux.org/mirrorlist/
+	- To rank mirrors:
+		sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak 
+		sudo rankmirrors -n 6 /etc/pacman.d/mirrorlist.bak > ~/mirrorlist
+		sudo cp ~/mirrorlist /etc/pacman.d/mirrorlist
+		pacman -Syu pacman-mirrorlist
+
+################# FLATPAK #################
++ Add a repository
+    - System-wide
+        flatpak remote-add name location
+    - To add the official repository with a per-user configuration: 
+        flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo
++ Delete a repository
+    flatpak remote-delete name
++ List repositories
+    flatpak remotes
++ Update data
+    flatpak update
++ Search for a remote runtime or application
+    flatpak search appname
++ List all available runtimes and applications
+    flatpak remote-ls remotename
++ Install a runtime or application
+    flatpak install remote_name appname
++ Uninstall a runtime or application
+    flatpak uninstall name
+    flatpak uninstall --delete-data name
++ List installed runtimes and applications
+    flatpak list
++ Run applications
+    flatpak run name
++ Update a runtime or application
+    flatpak update name
+
+
+################# C0MPRESS EACH FOLDER INTO ITS OWN COMPRESSED FILE ################
+for i in */; do zip -r "${i%/}.zip" "$i"; done
+
+################# SSD/HDD SETTINGS #################
++ Get all S.M.A.R.T info:
+	sudo smartctl -A /dev/sdX
+
+
+
++ HDD standby settings:
+	- Enable standby: sudo hdparm --yes-i-know-what-i-am-doing -s 1 /dev/sdx
+	- Disable standby: sudo hdparm -s 0 /dev/sdx
+	- Set time to standby: sudo hdparm -S 12*minutes /dev/sdx
+
+
+
++ Mount WORKSPACE & TNTDATA
+get userid groupid by:
+id
+add uid=xxxx,gid=yyyy to the options
+
+cd /run/media
+sudo mkdir /run/media/TNTDATA
+sudo chown -R thanhtran:thanhtran TNTDATA
+sudo chmod 555 TNTDATA
+sudo mount -o nofail,rw,noatime,uid=1000,gid=1001 /dev/sda1 /run/media/TNTDATA
+	
+sudo mkdir /run/media/WORKSPACE
+sudo chown -R thanhtran:thanhtran WORKSPACE
+sudo chmod 555 WORKSPACE
+sudo mount -o nofail,rw,noatime,uid=1000,gid=1001 /dev/nvme1n1p1 /run/media/WORKSPACE
+
++ mount options for data HDD (not SSD) btrfs: 
+nofail,rw,noatime,nodiratime,compress=zstd:3,noacl,space_cache=v2,autodefrag,commit=120
+nofail,rw,noatime,nodiratime,nodev,nosuid,noacl,space_cache=v2,autodefrag
++ mount options for root SSD btrfs: nofail,rw,noatime,compress=zstd:3,ssd,space_cache=v2,commit=120
+
+genfstab -U /
+
+Reload fstab: 
+	sudo systemctl daemon-reload
+	sudo mount -a
+-
+copy to new fstab for TNTDATA & WORKSPACE to /etc/fstab
+
+ln -s /run/media/TNTDATA ~/Desktop/
+ln -s /run/media/WORKSPACE/ ~/Desktop/
+
+sudo sensors-detect
+
++ Copy file 60-ioschedulers.rules to /etc/udev/rules.d/ to have better scheduler for NVME/SSD/HDD
+	Reboot and check if scheduler is correct by: grep "" /sys/block/*/queue/scheduler
+	This will show default scheduler in []
+
+################# VIRT MANAGER #################
+sudo pacman -S virt-manager dnsmasq bridge-utils qemu-desktop
+- Make current user is in libvirt group
+	sudo usermod -a -G libvirt $(whoami)
+- sudo nano /etc/default/grub edit:
+	#GRUB_CMDLINE_LINUX_DEFAULT="quiet loglevel=3 splash systemd.show_status=auto rd.udev.log_level=3 intel_iommu=on iommu=pt "
+	#GRUB_CMDLINE_LINUX_DEFAULT="quiet loglevel=3 splash systemd.show_status=auto rd.udev.log_level=3 intel_iommu=on iommu=pt pcie_aspm=off processor.max_cstate=3 intel_idle.max_cstate=3 i915.enable_psr=0 mce=nobootlog "
+	#GRUB_CMDLINE_LINUX_DEFAULT="quiet loglevel=3 systemd.show_status=auto rd.udev.log_level=3 pcie_aspm=off i915.enable_psr=0 splash mce=nobootlog  "
+	#GRUB_CMDLINE_LINUX_DEFAULT="quiet loglevel=3 splash systemd.show_status=auto rd.udev.log_level=3 pcie_aspm=off processor.max_cstate=3 intel_idle.max_cstate=3 i915.enable_psr=0 mce=nobootlog "
+	
+	GRUB_CMDLINE_LINUX_DEFAULT="quiet loglevel=3 splash systemd.show_status=auto rd.udev.log_level=3 mce=nobootlog acpi_mask_gpe=0x62 "
+	
+	GRUB_CMDLINE_LINUX_DEFAULT="quiet loglevel=3 splash systemd.show_status=auto rd.udev.log_level=3 mce=nobootlog pcie_aspm=off acpi_mask_gpe=0x62 "
+
+- To know all support processor.max_cstate:  grep . /sys/devices/system/cpu/cpu0/cpuidle/state*/name
+- To know maximum supported intel_idle.max_cstate: cat /sys/module/intel_idle/parameters/max_cstate
+	Then update grub:
+		sudo grub-mkconfig -o /boot/grub/grub.cfg
+- Change group: sudo nano /etc/libvirt/qemu.conf to libvirt; change user to user id
+- Enable libvirtd, and virtlogd services:
+	sudo systemctl enable libvirtd
+	sudo systemctl enable virtlogd
+- Start these services:
+	sudo systemctl start libvirtd
+	sudo systemctl start virtlogd
+	
+	# Start automatically NAT virtual network
+	sudo virsh net-autostart default
+	
+	# Start automatically bridge network
+	# Get its name first - in this case virbr0
+	# sudo nmcli connection show
+	# Make it autostart
+	# nmcli con mod virbr0 connection.autoconnect yes
+
+- If has guest's network problem, try:	
+	sudo virsh net-start default
+	# Show bridge network
+	sudo nmcli connection show
+	sudo nmcli connection up virbr0
+
+
+- Allow current user to access block devices:
+	+ List info of the block device
+	udevadm info -a -n /dev/nvme0n1
+	udevadm info -a -n /dev/nvme1n1
+	udevadm info -a -n /dev/sdx
+	+ Create a file in /etc/udev/rules.d/ let's name: 99-myrules.rules
+	SUBSYSTEM=="block", ATTRS{uuid}=="00000000-0100-0000-e4d2-5c638e664f01", ATTRS{wwid}=="eui.0000000001000000e4d25c638e664f01", ACTION=="add", RUN+="/bin/setfacl -m g:libvirt:rw- /dev/$name"
+	If only need access a partition, repalce /dev/$name by the partition ex: /dev/nvme1n1p1
+	
+	Change uuid, wwid for each device
+	In case of SSD or HDD: use idProduct and serial instead
+- Windows guest will use channel as:
+	<channel type="spicevmc">
+	  <target type="virtio" name="com.redhat.spice.0"/>
+	  <address type="virtio-serial" controller="0" bus="0" port="1"/>
+	</channel>
+- Windows guest will use Video QXL as:
+	<video>
+	  <model type="qxl" ram="262144" vram="262144" vgamem="65536" heads="1" primary="yes"/>
+	  <address type="pci" domain="0x0000" bus="0x00" slot="0x01" function="0x0"/>
+	</video>
+
+	
+
+
+
+
++ To know how to use a command, just use: tldr command_name
+
++ To set Files can paste path:
+	gsettings set org.gnome.nautilus.preferences always-use-location-entry true
+
+
+
+	
+sudo pacman -Syu kicad
+# if you want to install the official libraries (recommended):
+sudo pacman -Syu --asdeps kicad-library kicad-library-3d
+--asdeps means the packages are installed as a dependecy of KiCad, meaning they will be uninstalled automatically when uninstalling it.
+
+
++ List all groups:
+	cut -d: -f1 /etc/group
++ List all users:
+	cut -d: -f1 /etc/passwd
+
+
++ HDD low level format
+	1> Display if the hdd is locked:
+		sudo hdparm -I /dev/sdx
+	2> If the drive shows "frozen" you must first "un-freeze" it:
+		sudo hdparm --user-master u --security-set-pass llformat /dev/sdx
+		sudo hdparm --user-master m --security-unlock llformat /dev/sdx
+		sudo hdparm --user-master m --security-disable llformat /dev/sdx
+	3> Then show if it is un-freeze/unlocked: 
+		sudo hdparm -I /dev/sdx
+	4> Perform low level format:
+		sudo hdparm --user-master u --security-erase llformat /dev/sdx
+
+
++ ffmpeg convert file
+	ffmpeg -i infile.xxx -ss 00:00:12 -to 00:05:17 -vn -ar 48000 -ac 2 -b:a 320k out_file.mp3
++ Convert all opus to mp3 in a directory:
+	for fullname in *.opus; do name=$"${fullname%.*}"; ffmpeg -i "$fullname" -vn -ar 48000 -ac 2 -b:a 320k "$name.mp3"; done
++ ffmpeg add audio to video
+	ffmpeg -i 1.mp4 -i 1a.wav -map 0:v -map 1:a -c:v copy -shortest 'React Course - Beginner Tutorial for React JavaScript Library [2022].mp4'
+
++ Rotate video:
+	ffmpeg -i input.mov -vf "transpose=1" output.mov
+		For the transpose parameter you can pass:
+			0 = 90° counterclockwise and vertical flip (default)
+			1 = 90° clockwise
+			2 = 90° counterclockwise
+			3 = 90° clockwise and vertical flip
+		For mac m4: -c:v h264_videotoolbox
+
+	for f in *.mp4; do rf="${f%.*}-r.mp4"; ffmpeg -i "$f" -vf "transpose=1" -c:v h264_videotoolbox "$rf"; done
+
+
+
++ convert ts to mp4
+	for fullname in *.ts; do name=$"${fullname%.*}"; ffmpeg -i "$fullname" "$name.mp4"; rm "$fullname"; done
+	
+	name=""
+	ffmpeg -i 1.mp4 -i 1.opus -map 0:v -map 1:a -c:v copy -shortest "$name".mp4
++ concat videos
+	for f in *.mkv; do echo "file '$f'" >> mylist.txt; done
+	ffmpeg -safe 0 -f concat -i mylist.txt -c copy out.mkv
++ Extract audio from video
+	for f in *.mkv; do name=$"${f%.*}"; ffmpeg -i "$f" -f mp3 -ab 256K -vn "audio/$name.mp3"; done
+	for f in *.mp4; do name=$"${f%.*}"; ffmpeg -i "$f" -f mp3 -ab 256K -vn "audio/$name.mp3"; done
++ split file
+	infile="filename.mp4"
+	
+	sm=02
+	ss=45
+	em=24
+	es=20
+	
+	sh=00
+	eh=00
+	
+	start=$sh:$sm:$ss
+	end=$eh:$em:$es
+	
+	dest=/run/media/thanhtran/4TBRED/SX/tmp
+	
+	ffmpeg -ss $start -to $end -i "$infile" -acodec copy -vcodec copy "$dest"/"$infile"
+	
+	rm -rf "$infile"
+	
+	
++ Useful software:
+	handBrake
+	audacity
+	lmms
+	ardour
+	freecad
+	gimp
+	photogimp from github
+	krita
+	inkscape
+	kdenlive
+	blender
+	natron
+	joplin
+	freecad
+	darktable
+	scribus
+	
++ Make iso file
+	mkisofs -allow-leading-dots -ldots -allow-lowercase -allow-multidot -iso-level 4 -no-limit-pathtables -joliet-long -o destination-filename.iso /path/folder
+	for fullname in *; do mkisofs -allow-leading-dots -ldots -allow-lowercase -allow-multidot -iso-level 4 -no-limit-pathtables -joliet-long -o "/run/media/thanhtran/f39e49a2-f224-45e3-a357-c9a4ba982045/VIDEO TUTORIALS/$fullname.iso" "./$fullname"; done
+	for fullname in *; do mkisofs -allow-leading-dots -ldots -allow-lowercase -allow-multidot -iso-level 4 -no-limit-pathtables -joliet-long -o "/run/media/thanhtran/4TBRED/VIDEO TUTORIALS/$fullname.iso" "./$fullname"; done
+
+
+	
++  If you mount the drive with the -o noacl option, everybody will have full read/write access. If you only want people to be able to read the drive, chmod a+r /mnt/storage
+
++ Read kernel logs:
+	sudo journalctl -k
+	sudo dmesg -l err,warn -H
++ Read cpu cores clock every 1s:
+	watch -n1 "cat /proc/cpuinfo | grep MHz | awk '{print $1}'"
+
+env DCONF_PROFILE=ibus dconf write /desktop/ibus/general/preload-engines "['BambooUs', 'Bamboo']" && gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('ibus', 'Bamboo')]"
+
++ Get file names and extensions in for loop bash
+	for fullname in *.opus; do fname="${fullname%.*}"; echo $fname; done
+	File name (w/o extension) is "${fullname%.*}" and extension is "${fullname##*.}"
+	
+
++ Extract multiple parts rar:
+	- Create a directory and then move all parts into the directory.  Let's say all parts are named as xxx1.rar, xxx2.rar, ...
+	- Use command: unrar x xxx1.rar
+	- With password (must enter password twice): unrar x -p xxx1.rar
+	
+	
++ Scan virus
+	clamscan --infected --recursive=yes ./DirName
+
++ clear journalctl: (xd=xdays, xh=xhours,xw=xweeks,...) 
+	sudo journalctl --vacuum-time=8h
++ show journalctl after a specific time
+	journalctl -S "2023-02-12 00:00:00"
+
++ Change boot order:
+	sudo efibootmgr
+	Then copy the BootOrder: "sequence"
+	Change the sequence in: sudo efibootmgr -o "changed_sequence"
++ Delete a boot entry
+	Get the entry number by: sudo efibootmgr
+	sudo efibootmgr -b <bootnum> -B
+
++ Rename all files to uppercase:
+	for f in * ; do mv -- "$f" "$(tr [:lower:] [:upper:] <<< "$f")" ; done
+
+
++ Create USB Installation:
+	sudo dd bs=4M if=./archlinux-*-x86_64.iso of=/dev/sdc conv=fsync oflag=direct status=progress
+
+
++ Convert epub to pdf:
+	ebook-convert name.epub name.pdf --paper-size a4 --pdf-default-font-size 14
+
++ Delete all empty directories:
+	find . -type d -empty -print -delete
++ Delete all empty files:
+	find . -type f -empty -print -delete
+
++++LET'S file="FileName.pdf"
++ Extract all pages from pdf file into separate files
+	pdftk "$file" burst output ./out/p_%05d.pdf
++ Merge all files into one file
+	pdftk ./out/p_*.pdf output ./out/out.pdf
++ Update TOC and document info
+	pdftk ./out/out.pdf update_info ./out/doc_data.txt output NEW-"$file"
+	
+
+#! /bin/bash
+mkdir ./tmp
+mkdir ./old
+mkdir ./OK
+for file in *.pdf
+do
+###########using gs
+#gs -dSAFER -dBATCH -sDEVICE=pdfwrite -dCompatibilityLevel=1.4  -dPDFSETTINGS=/prepress -o ./OK/"$file" "$file"
+#mv "$file" ./old
+###########using pdftk
+pdftk "$file" burst output ./tmp/p_%05d.pdf
+pdftk ./tmp/p_*.pdf output ./tmp/out.pdf
+mv "$file" ./old
+pdftk ./tmp/out.pdf update_info ./tmp/doc_data.txt output "$file" compress
+rm ./tmp/*
+done
+
+
++ Extract TOC and annotations
+	pdftk in.pdf dump_data output doc_data.txt
++ Remove all annotations
+	pdftk "$file"  output - uncompress | sed '/^\/Annots/d' | pdftk - output NEW-"$file" compress
+	
+	
+
++ Compare two directories
+	diff -qr dir1 dir2
+	(-q show common files and dirs)
++ Sync files two folders (must have / at the end of source folder path):
+	rsync -auvr --delete "/source_folder/" "/dest_folder"
+	rsync -auvr --delete "/run/media/3TBDATA/Books/" "/run/media/12TBDATA/Books"
++ Find all files have the same size
+	ls -l | awk '$1!~/^d/{if(size[$5]!=""){ print}size[$5]=$8}'
+
++ Regular expression
+	Match for any ./then any char - 
+		\./.*\s-\s
+	Match for any - SpringerThenAnyChar (2019).
+		-(Springer.*)\s\(2019\)\.
++ TORRENT:
+	Viettel router:
+		- Firewall Setup/NAT Forwarding/Port Forwarding: 6881->6889 192.168.1.6 6881->6889
+		- Firewall Setup/UPnP -> Enable
+	QTorrent:
+		- Incoming port: 6888
+		- Use UPnP
+
++ Power off a HDD:
+#!/bin/bash
+sudo umount /dev/disk/by-uuid/629dbc70-4f52-4f00-b77a-0ba5e93262ec
+sudo udisksctl power-off -b /dev/disk/by-uuid/629dbc70-4f52-4f00-b77a-0ba5e93262ec
+
+################# WINE #################
+	sudo pacman -S lib32-vulkan-intel lib32-mesa
+	yay -S wine wine-mono
+	mkdir -p ~/wine/X64
+	echo "export WINEARCH=win64" >>  .bash_profile
+	echo "export WINEPREFIX=~/wine/X64" >> .bash_profile
+	Logout and then login again
+	winecfg: in Graphics tab, uncheck all Windows settings
+
+
+
+
+	winetricks renderer=gl
+	
+	yay -S winegui
+	Run winegui and select root folder as ~/wine
+	+ IMPORTANT!!!:  DO NOT REMOVE MAPPING Z: FOR /
+	+ Use winegui to install: core fonts
+
+################# BOTTLES #################
+flatpak install bottles
+
+	
++ Update local mime
+	update-mime-database ~/.local/share/mime
+
++ Install brave browser
+	yay -S brave-bin
+	+ Install: (1) modern scroll extension, (2) Dark Reader, (3) Gnome shell integration, (4) Google Translate
+	+ Set brave://flags search for ozone and select Wayland
+
++ Install samba
+	sudo pacman -S samba
+	sudo cp ~/AInstall/smb.conf /etc/samba
+	Check for configuration parameters: testparm
+
+	Create a virtual network interface for smb
+		echo "sudo modprobe dummy; sudo ip link add eth1000 type dummy; sudo ip addr add 10.1.1.99/24 brd + dev eth1000 label eth1000:0;" >> ~/.bash_profile
+		Then logout and login again and check: ping 10.1.1.99
+	
+	Make share directory
+	sudo mkdir /run/media/DEV
+	sudo chown -R thanhtran:thanhtran /run/media/DEV
+	Then make fstab to mount DEV partition to /run/media/DEV
+	
+	Start the server: sudo systemctl start smb
+	Stop the server: sudo systemctl stop smb
+	Enable the server: sudo systemctl enable smb
+	Add user and set password: smbpasswd -a thanhtran -> set password is 123456
+
++ Equalizer:
+	sudo pacman -S pulseaudio-equalizer
+	sudo pacman -S gstreamer gst-plugins-good
+	sudo nano /etc/pulse/default.pa, add the following lines to the end:
+		load-module module-equalizer-sink
+		load-module module-dbus-protocol
+	sudo nano /etc/pulse/daemon.conf and set:
+		default-sample-format = s24le
+		default-sample-rate = 96000
+		alternate-sample-rate = 48000
+	Restart pulseaudio: pulseaudio -k
+	- Select output FFT based equalizer...
+	- Use command: qpaeq
+
+
++ To monitor disk IO usage:
+	- Install sysstat, iotop
+	- To show all devices: iostat -m -d
+	- To show only one device: iostat -m -d -p sdX,sdY,sdZ
+	- To show repeatedly in every n seconds: iostat -m -d n -p sdX,sdY,sdZ
+
++ To copy all files and directories in a folder:
+	cp -R --remove-destination ./* /dest/path
