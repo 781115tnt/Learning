@@ -12,3 +12,6 @@ git remote -v
 git remote set-url origin git@github.com:user_name/repository_name.git
   git remote set-url origin git@github.com:781115tnt/Learning.git
 
+#After this, a repository can be cloned as:
+git clone git@github.com:user_name/repository_name.git
+git clone git@github.com:781115TnT/Learning.git
