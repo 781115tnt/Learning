@@ -1,1 +1,122 @@
+Installing MacPorts: https://www.macports.org/install.php
+xcode-select --install;
+export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+export MANPATH=/opt/local/share/man:$MANPATH
+
+sudo port install wget
+sudo ln -s /opt/local/bin/wget /usr/bin/wget
+
+
+Brave: theme = Dark L20 Grey
+
+
++ Install macfuse
++ Uncompressed nfs-3g and copy its contents into /usr/local
++ copy all scripts
++ sudo visudo: add 
+	thanhtran       ALL=NOPASSWD:   /sbin/umount
+	thanhtran       ALL=NOPASSWD:   /usr/local/bin/ntfs-3g
+
+
+Install Homebrew & nfs-3g
++ Install Xcode command line tools
+	xcode-select --install
++ Install Homebrew:
+	curl -fsSL -o install.sh https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
+	Have a look at install.sh script: less install.sh
+	Then install: /bin/bash install.sh
++ Check for current shell and configure shell:
+	Check for shell: echo $0
+	If shell is zsh: nano ~/.zshrc;  If shell is bash then: nano ~/.bash_profile;  Add the following line before the PATH:
+		export PATH=/opt/homebrew/bin:$PATH
++ Execute:
+	source ~/.zshrc or source ~/.bash_profile
++ Check home-brew:
+	brew doctor
+
+
+brew install autoconf automake libtool libgcrypt pkg-config gettext
+
+brew link --force gettext
+
+git clone https://github.com/tuxera/ntfs-3g
+cd ntfs-3g
+export SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
+autoreconf -fvi
+./configure --prefix=/usr/local --mandir=/usr/local/share/man --exec_prefix=/usr/local --with-fuse=external
+make
+sudo make  DESTDIR=/Users/thanhtran/ntfs-3g/out install
+
+This will contains all files for ntfs-3g package
+
+sudo visudo: add 
+	thanhtran       ALL=NOPASSWD:   /sbin/umount
+	thanhtran       ALL=NOPASSWD:   /usr/local/bin/ntfs-3g
+
+
+
+
+https://gist.github.com/six519/9f04837f119103d4ff45542a5b5d4222
+https://downioads.github.io/posts/how-to-install-ntfs-3g-macos/
+
+
+4TBS300:
+	EDDB221D-B4E0-4DFF-A4C6-0C75E734549F
+diskutil info EDDB221D-B4E0-4DFF-A4C6-0C75E734549F
+sudo ntfs-3g -o auto_xattr,big_writes,volname="4TBS300" /dev/disk7s1 /Volumes/4TBS300
+
+dk=$(diskutil info EDDB221D-B4E0-4DFF-A4C6-0C75E734549F | grep "Device Node:" |  awk '{print $3}')
+sudo umount $dk
+sudo ntfs-3g -o auto_xattr,big_writes,volname="4TBS300" $dk /Volumes/4TBS300
+
+
+4TBRED:
+	9C01A4B6-11A8-4E74-8FA2-0E404F5EBE2C
+diskutil info 9C01A4B6-11A8-4E74-8FA2-0E404F5EBE2C
+sudo ntfs-3g -o auto_xattr,big_writes,volname="4TBRED" /dev/disk6s1 /Volumes/4TBRED
+
+dk=$(diskutil info 9C01A4B6-11A8-4E74-8FA2-0E404F5EBE2C | grep "Device Node:" |  awk '{print $3}')
+sudo umount $dk
+sudo ntfs-3g -o auto_xattr,big_writes,volname="4TBRED" $dk /Volumes/4TBRED
+
+DATA12TB
+	C331CDA2-3378-495C-B3FE-DBDB1F971235
+
+dk=$(diskutil info C331CDA2-3378-495C-B3FE-DBDB1F971235 | grep "Device Node:" |  awk '{print $3}')
+sudo umount $dk
+sudo ntfs-3g -o auto_xattr,big_writes,volname="DATA”12TB $dk /Volumes/DATA12TB
+
+
+
+
+https://superuser.com/questions/457868/making-a-program-always-run-as-root-in-os-x
+
+
+Creedence11M6270.SECUREPKITRUSTSTOREASSETS_SECUREPKITRUSTSTORE_Cryptex
+
+
+sudo installer -pkg /path/to/package.pkg -target /
+sudo spctl --master-disable
+spctl --status
+sudo spctl --master-enable
+xattr -c Disk\ Diet.app   
+
+for f in *.mp4; do rf="${f%.*}-r.mp4"; ffmpeg -i "$f" -vf "transpose=1" -c:v h264_videotoolbox "$rf"; done
+
+for f in *.mp4; do echo "file '$f'" >> mylist.txt; done
+ffmpeg  -safe 0 -f concat -i mylist.txt -c copy “out.mp4"
+
+
+for fullname in *; do hdiutil makehybrid -iso -joliet -o “./$fullname.iso" "$fullname"; done 
+for fullname in *; do hdiutil makehybrid -iso -joliet -o "/Volumes/DATA12TB/VIDEO TUTORIALS/$fullname.iso" "$fullname"; done
+
+for fullname in *; do hdiutil makehybrid -iso -joliet  -o "/Volumes/DATA12TB/VIDEO\ TUTORIALS/Electronics\ Embedded/$fullname.iso" "$fullname"; done
+
+
+
+2. Using Terminal (for .pkg installers):
+* Identify the Package: Locate the .pkg file you want to install.  
+* Use installer Command: Open Terminal and use the installer command with the -target option to specify the installation location.  
+    * Example: sudo installer -pkg /path/to/your/app.pkg -target /Volumes/Target/Drive (replace paths as needed)  
+* Enter Password: You'll be prompted for your administrator password. 
 
