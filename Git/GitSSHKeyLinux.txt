@@ -1,0 +1,14 @@
+#Generate ssh rsa key
+ssh-keygen -t rsa -b 4096 -C "781115tnt@gmail.com"
+#IMPORTANT: DO NOT CHANGE THE DEFAULT NAME OF THE FILE (id_rsa)
+
+#Copy public key to Github SSH public key
+cat ~/.ssh/id_rsa.pub and paste it to Github
+
+#Check for git remote site using https or ssh
+git remote -v
+
+#Set remote site to use ssh key by
+git remote set-url origin git@github.com:user_name/repository_name.git
+  git remote set-url origin git@github.com:781115tnt/Learning.git
+
