@@ -1,4 +1,3 @@
-
 #Add sudo for debian
 apt install usermod
 /sbin/usermod -aG sudo thanhtran
@@ -7,6 +6,13 @@ apt install usermod
 apt install gdm3 gnome-core
 #delete the content of
 /etc/network/interfaces
+
+############### WORKING WITH EFI ###############
+#Show EFI boot info:
+efibootmgr -v
+#Changing order:
+sudo efibootmgr -o order1,order2....
+
 
 ############### WORKING WITH APT ###############
 
