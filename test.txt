@@ -3,3 +3,4 @@ test2
 AAA\
 test4
 test5
+BBB\
