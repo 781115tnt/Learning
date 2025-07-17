@@ -87,7 +87,7 @@ sudo apt install brave-browser
 
 ############### INSTALL GCC, TOOLCHAINS AND VISUAL CODE ###############
 #Install GCC Toolchains
-sudo apt install gcc build-essential cmake tldr automake
+sudo apt install gcc build-essential cmake tldr automake dpkg-dev
 
 #Install Visual Code
 sudo apt-get install wget gpg
@@ -115,25 +115,21 @@ sudo apt install linux-image-6.1.0-37-rt-amd64 linux-headers-6.1.0-37-rt-amd64
 ############### COMPILE LINUXCNC FROM SOURCE ###############
 https://linuxcnc.org/docs/html/code/building-linuxcnc.html
 
+#Install GCC Toolchains
+sudo apt install gcc build-essential cmake tldr automake dpkg-dev
+
 sudo apt install python3-opengl python3-configobj  
 
-
-
-
-git clone https://github.com/LinuxCNC/linuxcnc.git linuxcnc-source-dir
+git clone https://github.com/LinuxCNC/linuxcnc.git linuxcnc-dev
 
 #Get dependencies
 cd linuxcnc-dev
 ./debian/configure
 sudo apt-get build-dep .
-sudo apt-get install dpkg-dev
 dpkg-checkbuilddeps
-sudo apt build-dep . . 
-#create Debian packages
-dpkg-buildpackage -b -uc
 
 #Build 
-cd linuxcnc-source-dir/src
+cd linuxcnc-dev/src
 ./autogen.sh
 ./configure --with-realtime=uspace
 make
@@ -143,5 +139,9 @@ runtests
 sudo make setuid
 
 
+
+sudo apt build-dep . . 
+#create Debian packages
+dpkg-buildpackage -b -uc
 
 
