@@ -134,7 +134,7 @@ cd linuxcnc-dev/src
 ./configure --with-realtime=uspace
 #./configure --with-realtime=uspace --prefix=/linuxcnc
 
-make
+make -j 2
 sudo make setuid
 source ../scripts/rip-environment
 runtests
