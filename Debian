@@ -41,6 +41,8 @@ apt  search app_keyword
 apt-cache search app_keyword
 #Show package information 
 apt show pkg_name
+#List installed package
+apt list --installed
 
 #Upgrade installed pkgs to latest versions, but won’t remove pkgs or install new dependencies	
 sudo apt upgrade
