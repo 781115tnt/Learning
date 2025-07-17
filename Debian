@@ -107,4 +107,6 @@ sudo systemctl start ssh
 sudo ufw allow ssh
 
 ############### INSTALL KERNEL RT ###############
+apt search linux | grep rt-amd64
+sudo apt install linux-image-6.1.0-37-rt-amd64 linux-headers-6.1.0-37-rt-amd64
 
