@@ -127,3 +127,8 @@ cd linuxcnc-source-dir/src
 ./autogen.sh
 ./configure --with-realtime=uspace
 make
+sudo make setuid
+source ../scripts/rip-environment
+runtests
+sudo make setuid
+
