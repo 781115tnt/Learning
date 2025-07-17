@@ -118,7 +118,7 @@ https://linuxcnc.org/docs/html/code/building-linuxcnc.html
 #Install GCC Toolchains
 sudo apt install gcc build-essential cmake tldr automake dpkg-dev
 
-sudo apt install python3-opengl python3-configobj  
+sudo apt install python3-opengl python3-configobj mesa-utils
 
 cd ~
 git clone https://github.com/LinuxCNC/linuxcnc.git linuxcnc-dev
