@@ -115,7 +115,7 @@ sudo apt install linux-image-6.1.0-37-rt-amd64 linux-headers-6.1.0-37-rt-amd64
 ############### COMPILE LINUXCNC FROM SOURCE ###############
 https://linuxcnc.org/docs/html/code/building-linuxcnc.html
 
-sudo apt install python3-opengl python3-configobj
+sudo apt install python3-opengl python3-configobj  
 
 
 
@@ -139,3 +139,6 @@ source ../scripts/rip-environment
 runtests
 sudo make setuid
 
+#create Debian packages
+cd ..
+dpkg-buildpackage -b -uc
