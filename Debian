@@ -132,6 +132,8 @@ dpkg-checkbuilddeps
 cd linuxcnc-dev/src
 ./autogen.sh
 ./configure --with-realtime=uspace
+#./configure --with-realtime=uspace --prefix=/linuxcnc
+
 make
 sudo make setuid
 source ../scripts/rip-environment
