@@ -129,7 +129,10 @@ sudo apt-get build-dep .
 sudo apt-get install dpkg-dev
 dpkg-checkbuilddeps
 sudo apt build-dep . . 
+#create Debian packages
+dpkg-buildpackage -b -uc
 
+#Build 
 cd linuxcnc-source-dir/src
 ./autogen.sh
 ./configure --with-realtime=uspace
@@ -139,6 +142,6 @@ source ../scripts/rip-environment
 runtests
 sudo make setuid
 
-#create Debian packages
-cd ..
-dpkg-buildpackage -b -uc
+
+
+
