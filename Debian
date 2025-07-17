@@ -85,7 +85,7 @@ sudo apt install brave-browser
 
 ############### INSTALL GCC, TOOLCHAINS AND VISUAL CODE ###############
 #Install GCC Toolchains
-sudo apt install gcc build-essential cmake tldr
+sudo apt install gcc build-essential cmake tldr automake
 
 #Install Visual Code
 sudo apt-get install wget gpg
@@ -105,3 +105,6 @@ sudo apt install openssh-server
 sudo systemctl enable ssh
 sudo systemctl start ssh
 sudo ufw allow ssh
+
+############### INSTALL KERNEL RT ###############
+
