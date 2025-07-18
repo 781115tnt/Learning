@@ -85,13 +85,14 @@ python3-pyinotify/stable,now 0.9.6-2 all [installed,automatic]
 python3-pyparsing/stable,now 3.0.9-1 all [installed,automatic]
 python3-pyqt5.qsci/stable,now 2.13.3+dfsg-3 amd64 [installed,automatic]
 python3-pyqt5.qtopengl/stable,now 5.15.9+dfsg-1 amd64 [installed,automatic]
-python3-pyqt5.qtsvg/stable,now 5.15.9+dfsg-1 amd64 [installed,automatic]
-python3-pyqt5.qtwebchannel/stable,now 5.15.9+dfsg-1 amd64 [installed,automatic]
-python3-pyqt5.qtwebengine/stable,now 5.15.6-1 amd64 [installed,automatic]
-python3-pyqt5.sip/stable,now 12.11.1-1 amd64 [installed,automatic]
-python3-pyqt5/stable,now 5.15.9+dfsg-1 amd64 [installed,automatic]
 
-python-reportbug/stable,now 12.0.0 all [installed,automatic]
+qt5-svg
+
+python-pyqt5-webengine
+python-pyqt5-sip
+python-pyqt5
+reportbug
+python-pyqt5
 python-simplesoapy
 python-requests
 python-serial
@@ -103,3 +104,4 @@ python-yapps
 
 python3-smbc
 python-tk
+python3-pyqt5.qtwebchannel/stable,now 
