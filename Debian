@@ -32,6 +32,9 @@ sudo apt install pkg_name1 pkg_name2 pkg_name3…
 sudo apt install -y pkg_name1 pkg_name2 pkg_name3…
 #Reinstall package
 sudo apt install —reinstall pkg_name1
+#Fix broken
+sudo apt install --fix-broken
+
 
 #Remove but keep configuration files
 sudo apt remove pkg_name
