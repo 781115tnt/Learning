@@ -661,3 +661,4 @@ cd linuxcnc-dev/src
 ./autogen.sh
 ./configure --with-realtime=uspace --enable-non-distributable=yes
 make -j 2
+sudo make setuid
