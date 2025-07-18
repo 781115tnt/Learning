@@ -55,6 +55,10 @@ apt show pkg_name
 apt list --installed
 #List all installed with only package name
 apt list --installed | grep -o '.*[/]' | sed 's/[/]$//'
+#List all installed with only package name and concate them into one line
+apt list --installed | grep -o '.*[/]' | sed 's/[/]$//'  |  awk '{print}' ORS=' '
+#Search installed with XXXXXX then concate them into one line
+apt list --installed | grep XXXXXX | grep -o '.*[/]' | sed 's/[/]$//'  |  awk '{print}' ORS=' '
 
 #Upgrade installed pkgs to latest versions, but won’t remove pkgs or install new dependencies	
 sudo apt upgrade
