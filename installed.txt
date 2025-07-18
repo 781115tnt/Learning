@@ -1,6 +1,7 @@
-libpoppler-qt5-1/stable,now 22.12.0-2+b1 amd64 [installed,automatic]
-libqscintilla2-qt5-15/stable,now 2.13.3+dfsg-3 amd64 [installed,automatic]
-libqscintilla2-qt5-l10n/stable,now 2.13.3+dfsg-3 all [installed,automatic]
+libpoppler-qt5 python-qscintilla-qt5 python-qscintilla-qt5 \
+qtdbusextended 
+
+
 libqt5core5a/stable,now 5.15.8+dfsg-11+deb12u2 amd64 [installed,automatic]
 libqt5dbus5/stable,now 5.15.8+dfsg-11+deb12u2 amd64 [installed,automatic]
 libqt5designer5/stable,now 5.15.8-2 amd64 [installed,automatic]
@@ -89,17 +90,16 @@ python3-pyqt5.qtwebchannel/stable,now 5.15.9+dfsg-1 amd64 [installed,automatic]
 python3-pyqt5.qtwebengine/stable,now 5.15.6-1 amd64 [installed,automatic]
 python3-pyqt5.sip/stable,now 12.11.1-1 amd64 [installed,automatic]
 python3-pyqt5/stable,now 5.15.9+dfsg-1 amd64 [installed,automatic]
-python3-pysimplesoap/stable,now 1.16.2-5 all [installed,automatic]
-python3-reportbug/stable,now 12.0.0 all [installed,automatic]
-python3-requests/stable,now 2.28.1+dfsg-1 all [installed,automatic]
-python3-serial/stable,now 3.5-1.1 all [installed,automatic]
-python3-sgmllib3k/stable,now 1.0.0-4 all [installed,automatic]
-python3-six/stable,now 1.16.0-4 all [installed,automatic]
-python3-smbc/stable,now 1.0.23-2+b4 amd64 [installed,automatic]
-python3-tk/stable,now 3.11.2-3 amd64 [installed,automatic]
-python3-urllib3/stable,now 1.26.12-1+deb12u1 all [installed,automatic]
-python3-xlib/stable,now 0.33-2 all [installed,automatic]
-python3-yapps/stable,now 2.2.1-3.1 all [installed,automatic]
-python3.11-minimal/stable,now 3.11.2-6+deb12u5 amd64 [installed,automatic]
-python3.11/stable,now 3.11.2-6+deb12u5 amd64 [installed,automatic]
-python3/stable,now 3.11.2-1+b1 amd64 [installed,automatic]
+
+python-reportbug/stable,now 12.0.0 all [installed,automatic]
+python-simplesoapy
+python-requests
+python-serial
+python-sgmllib3k
+python-six
+python-urllib3
+python-xlib
+python-yapps
+
+python3-smbc
+python-tk
