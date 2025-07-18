@@ -645,5 +645,10 @@ flatpak install bottles
 
 ################# COMPILE LINUXCNC #################
 yay -S grub-customizer
+
+sudo pacman libmodbus intltool boost-libs boost libgpiod tk editline
+yay -Ss python-yapps2 libgpiod-1.6 bwidget tclx 
+
+
 #Disable the fallback initramfs by editing /etc/mkinitcpio.d/linux.preset and remove it from PRESETS.
 sudo pacman -S base-devel linux-rt-lts-headers linux-rt-lts
