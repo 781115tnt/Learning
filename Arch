@@ -647,12 +647,16 @@ flatpak install bottles
 yay -S grub-customizer
 
 sudo pacman libmodbus intltool boost-libs boost libgpiod tk editline
-yay -Ss python-yapps2 libgpiod-1.6 bwidget tclx 
+
+yay -Ss python-yapps2 libgpiod-1.6 bwidget tclx qscintilla-qt5 \
+	python-qscintilla-qt5 python-numpy python-opencv python-espeak \
+	python-pyqt5-webengine python-xlib
+
 
 
 #Disable the fallback initramfs by editing /etc/mkinitcpio.d/linux.preset and remove it from PRESETS.
-sudo pacman -S base-devel linux-rt-lts-headers linux-rt-lts python-pyqt5 python-opengl qt5-svg 
-
+sudo pacman -S base-devel linux-rt-lts-headers linux-rt-lts python-pyqt5 \
+	python-opengl qt5-svg 
 
 cd ~
 git clone https://github.com/LinuxCNC/linuxcnc.git linuxcnc-dev
