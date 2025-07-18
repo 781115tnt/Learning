@@ -639,3 +639,9 @@ flatpak install bottles
 
 + To copy all files and directories in a folder:
 	cp -R --remove-destination ./* /dest/path
+
+
+
+
+################# COMPILE LINUXCNC #################
+sudo pacman -S base-devel linux-rt-lts-headers linux-rt-lts
