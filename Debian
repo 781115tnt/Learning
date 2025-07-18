@@ -53,6 +53,8 @@ apt-cache search app_keyword
 apt show pkg_name
 #List installed package
 apt list --installed
+#List all installed with only package name
+apt list --installed | grep -o '.*[/]' | sed 's/[/]$//'
 
 #Upgrade installed pkgs to latest versions, but won’t remove pkgs or install new dependencies	
 sudo apt upgrade
