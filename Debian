@@ -7,6 +7,9 @@ apt install gdm3 gnome-core
 #delete the content of
 /etc/network/interfaces
 
+#Install Xfce minimum
+sudo apt install xfce4 xfce4-goodies lightdm
+
 ############### WORKING WITH EFI ###############
 #Show EFI boot info:
 efibootmgr -v
