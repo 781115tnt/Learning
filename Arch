@@ -644,4 +644,5 @@ flatpak install bottles
 
 
 ################# COMPILE LINUXCNC #################
+#Disable the fallback initramfs by editing /etc/mkinitcpio.d/linux.preset and remove it from PRESETS.
 sudo pacman -S base-devel linux-rt-lts-headers linux-rt-lts
