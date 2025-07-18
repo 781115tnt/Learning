@@ -651,4 +651,13 @@ yay -Ss python-yapps2 libgpiod-1.6 bwidget tclx
 
 
 #Disable the fallback initramfs by editing /etc/mkinitcpio.d/linux.preset and remove it from PRESETS.
-sudo pacman -S base-devel linux-rt-lts-headers linux-rt-lts
+sudo pacman -S base-devel linux-rt-lts-headers linux-rt-lts python-pyqt5 python-opengl qt5-svg 
+
+
+cd ~
+git clone https://github.com/LinuxCNC/linuxcnc.git linuxcnc-dev
+
+cd linuxcnc-dev/src
+./autogen.sh
+./configure --with-realtime=uspace --enable-non-distributable=yes
+make -j 2
