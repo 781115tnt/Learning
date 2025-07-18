@@ -10,6 +10,7 @@ sudo pacman -S gnome-tweaks firefox vlc dconf-editor smplayer exfat-utils hdparm
 	cd yay
 	makepkg -si
 	yay --version
+yay -S neofetch
 
 + Install other apps:
 	#sudo pacman -S gnome-boxes
