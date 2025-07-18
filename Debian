@@ -150,3 +150,6 @@ sudo apt build-dep . .
 dpkg-buildpackage -b -uc
 
 
+sudo gedit /etc/security/limits.d/linuxcnc.conf
+	* - memlock 20480
+
