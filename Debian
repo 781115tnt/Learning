@@ -14,6 +14,9 @@ sudo leafpad /etc/lightdm/lightdm.conf
 	autologin-user=YourDesiredAutoLoginUserName
 #XFCE/Settings/Settings Manager/Power Manager -> uncheck Lock screen when going for suspend/hibernate.
 
+############### CONCATE ALL LINES FROM ONE FILE INTO ONE LINE ###############
+more filename | awk '{print}' ORS='" '
+
 ############### WORKING WITH EFI ###############
 #Show EFI boot info:
 efibootmgr -v
