@@ -178,6 +178,12 @@ runtests
 
 
 
+
+sudo sysctl kernel.sched_rt_runtime_us=-1
+
+
+
+
 #sudo gedit /etc/security/limits.d/linuxcnc.conf
 	* - memlock 20480
 
