@@ -162,7 +162,22 @@ make -j 2
 sudo make setuid
 source ../scripts/rip-environment
 runtests
+
+#START THE QTVCP SCRIPT FOR THE INSTALLATION
+~/linuxcnc-dev/lib/python/qtvcp/designer/install_script
+#CHOOSE #2 WHEN PROMPTED FOR THE RIP INSTALL.  AFTER THIS IS INSTALLED, LINUXCNC WILL START UP AND WORK. 
+2
+#AS A SIDE NOTE, QTDRAGON_HD WILL WORK AT THIS POINT. 
+
+
+
+
+
 sudo make setuid
+
+
+
+
 
 
 
