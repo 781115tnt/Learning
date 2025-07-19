@@ -8,7 +8,7 @@ apt install gdm3 gnome-core
 /etc/network/interfaces
 
 #Install Xfce minimum
-sudo apt install xfce4 lightdm network-manager network-manager-gnome firefox-esr geany #xfce4-goodies
+sudo apt install xfce4 lightdm network-manager network-manager-gnome firefox-esr xfce4-terminal geany #xfce4-goodies
 #Allow autologin
 sudo leafpad /etc/lightdm/lightdm.conf
 	autologin-user=YourDesiredAutoLoginUserName
