@@ -8,6 +8,7 @@ apt install gdm3 gnome-core
 /etc/network/interfaces
 
 #Install Xfce minimum
+#Install Debial using net-install with terminal only, then
 sudo apt install xfce4 lightdm network-manager network-manager-gnome firefox-esr xfce4-terminal geany #xfce4-goodies
 #Allow autologin
 sudo leafpad /etc/lightdm/lightdm.conf
