@@ -171,21 +171,20 @@ runtests
 
 
 
-
-
-sudo make setuid
-
-
-
-
-
-
-
-sudo apt build-dep . . 
+#sudo apt build-dep . . 
 #create Debian packages
-dpkg-buildpackage -b -uc
+#dpkg-buildpackage -b -uc
 
 
-sudo gedit /etc/security/limits.d/linuxcnc.conf
+
+
+#sudo gedit /etc/security/limits.d/linuxcnc.conf
 	* - memlock 20480
 
+
+################ ETHERCAT ################
+cd ~
+git clone https://gitlab.com/etherlab.org/ethercat.git ethercat-master
+cd ethercat-master
+./bootstrap
+sudo lspci -v
