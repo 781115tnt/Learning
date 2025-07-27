@@ -1,3 +1,9 @@
+Enable apple intelligence on external drive
+curl -L https://raw.githubusercontent.com/Kyle-Ye/XcodeLLMEligible/release/0.2/scripts/override.sh | bash -s -- install override xcodellm+greymatter+strontium
+
+
+
+
 Installing MacPorts: https://www.macports.org/install.php
 xcode-select --install;
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
