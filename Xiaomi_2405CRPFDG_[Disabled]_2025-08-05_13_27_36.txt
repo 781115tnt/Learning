@@ -1,0 +1,7 @@
+# Preset created in ADB AppControl 1.8.6
+# Total applications: 3
+# 2025-08-05_13:27:36
+# Xiaomi 2405CRPFDG Disabled applications
+com.android.nfc
+com.google.android.devicelockcontroller
+com.google.android.gms.supervision
