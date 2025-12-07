@@ -124,6 +124,7 @@ for fullname in *; do hdiutil makehybrid -iso -joliet -o "/Volumes/DATA12TB/VIDE
 
 for fullname in *; do hdiutil makehybrid -iso -joliet  -o "/Volumes/DATA12TB/VIDEO\ TUTORIALS/Electronics\ Embedded/$fullname.iso" "$fullname"; done
 
+for fullname in *; do hdiutil makehybrid -iso -joliet  -o "/Volumes/4TBS300/$fullname.iso" "$fullname"; done
 
 
 2. Using Terminal (for .pkg installers):
