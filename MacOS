@@ -1,6 +1,14 @@
 Install OhMyZsh theme
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
+Disable memory-hungry UI services (reversible)
+defaults write com.apple.finder DisableAllAnimations -bool true
+defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
+killall Finder
+
+Stop photo analysis (huge background RAM)
+launchctl unload -w /System/Library/LaunchAgents/com.apple.photoanalysisd.plist
+sudo launchctl bootout system /System/Library/LaunchDaemons/com.apple.photoanalysisd.plist
 
 
 
