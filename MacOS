@@ -10,6 +10,11 @@ Stop photo analysis (huge background RAM)
 launchctl unload -w /System/Library/LaunchAgents/com.apple.photoanalysisd.plist
 sudo launchctl bootout system /System/Library/LaunchDaemons/com.apple.photoanalysisd.plist
 
+Mirror source to destination (exact copy)
+rsync -av --delete source/ destination/
+(Be careful: --delete removes files in the destination that do not exist in source.)
+
+
 
 
 Enable apple intelligence on external drive
