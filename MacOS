@@ -71,6 +71,28 @@ Note:
 
 4. Open Disk Utility and rename external Macintosh HD to ExtMacOS
 
+🍎 4. For Apple Silicon (M1, M2, M3) Macs
+
+Due to Sealed System Volume (SSV), a block-level clone may not boot.
+Instead:
+
+Boot into macOS Recovery (Power button → hold → Options → Continue).
+
+Erase internal or external drive as APFS.
+
+Use Time Machine Restore or Migration Assistant to move data from the clone.
+
+To clone Apple Silicon system volumes properly, you can use:
+
+sudo asr restore --source / --target /Volumes/MacClone --erase --puppetstrings
+
+
+
+
+
+
+
+
 
 
 Install OhMyZsh theme
