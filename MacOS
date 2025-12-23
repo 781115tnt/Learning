@@ -1,3 +1,12 @@
+Clone internal ssd to external ssd
+1. diskutil list
+/dev/disk0 (internal, physical)
+/dev/disk4 (external, physical)
+2. sudo diskutil eraseDisk APFS ExtMacOS GPT /dev/disk4
+3. sudo asr restore --source /dev/disk0s2 --target /dev/disk5 --erase --noverify
+
+
+
 Install OhMyZsh theme
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
