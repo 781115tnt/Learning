@@ -90,6 +90,19 @@ sudo asr restore --source / --target /Volumes/MacClone --erase --puppetstrings
 
 
 
+##############################################
+Best APFS settings for a STORAGE volume (non-system)
+1️⃣ Use a single volume (avoid space sharing)
+2️⃣ Disable Spotlight indexing (VERY important)
+sudo mdutil -i off /Volumes/DATA12TB
+mdutil -s /Volumes/DATA12TB
+3️⃣ Avoid snapshots unless you really need them
+list all snapshots: tmutil listlocalsnapshots /Volumes/DATA12TB
+delete any if exists: sudo tmutil deletelocalsnapshots SNAPSHOT_ID
+4️⃣ Do NOT use encryption unless required
+5️⃣ Exclude from Time Machine
+System Settings → Time Machine → Options ➜ Exclude your APFS storage volume
+6️⃣ Mount options (what you can & can’t do)
 
 
 
