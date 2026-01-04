@@ -1,3 +1,8 @@
+RESET BACKGROUND APPS
+sudo sfltool resetbtm
+
+
+
 Clone internal ssd to external ssd
 1. diskutil list
 					/dev/disk0 (internal, physical):
