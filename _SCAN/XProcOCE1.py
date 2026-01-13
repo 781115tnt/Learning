@@ -20,9 +20,9 @@ out_ext = '.png'
 def run_gs(task):
     inp, out = task
     if rot == 0 :
-        cmd = f"convert \"{inp}\" -limit memory 16GiB -level 45%,90% -colors 64 -define png:color-type=3 \"{out}\""
+        cmd = f"convert \"{inp}\" -limit memory 16GiB -fuzz 15%  -fill \"red\"  -opaque \"rgb(220,30,30)\" -fill \"blue\"  -opaque \"rgb(30,30,170)\" -fill \"black\" -opaque \"rgb(20,20,20)\" -level 30%,90% -colors 64  -define png:color-type=3 \"{out}\""
     else:
-        cmd = f"convert \"{inp}\" -limit memory 16GiB -level 45%,90% -colors 64 -define png:color-type=3 -rotate {rot} \"{out}\""
+        cmd = f"convert \"{inp}\" -limit memory 16GiB -fuzz 15%  -fill \"red\"  -opaque \"rgb(220,30,30)\" -fill \"blue\"  -opaque \"rgb(30,30,170)\" -fill \"black\" -opaque \"rgb(20,20,20)\" -level 30%,90% -colors 64  -define png:color-type=3 -rotate {rot} \"{out}\""
         
     return subprocess.run(cmd, shell=True)
 
