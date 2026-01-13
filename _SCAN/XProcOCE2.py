@@ -1,0 +1,57 @@
+import subprocess
+from concurrent.futures import ProcessPoolExecutor
+import glob
+import os
+import img2pdf
+from pathlib import Path
+import re
+import psutil
+
+
+#Support rotation: 0, 90, 180, 270
+rot = 0
+
+proc_dir = "Z:\\_SCAN\\OCE\\OCE2\\_PYPROC"
+max_process = psutil.cpu_count(logical=False)
+orig_ext = '.tif'
+out_ext = '.png'
+
+
+def run_gs(task):
+    inp, out = task
+    if rot == 0 :
+        cmd = f"convert \"{inp}\" -limit memory 16GiB -level 45%,90% -colors 64 -define png:color-type=3 \"{out}\""
+    else:
+        cmd = f"convert \"{inp}\" -limit memory 16GiB -level 45%,90% -colors 64 -define png:color-type=3 -rotate {rot} \"{out}\""
+        
+    return subprocess.run(cmd, shell=True)
+
+def processing_image():
+    all_files = glob.glob(f"{proc_dir}\\**\\*.tif", recursive=True)
+    jobs = []
+    for origimg in all_files:
+        outimg = f"{os.path.splitext(origimg)[0]}{out_ext}"
+        jobs.append((origimg, outimg))  
+    with ProcessPoolExecutor(max_workers=max_process) as pool:
+        pool.map(run_gs, jobs)
+    print("PROCESSING IMAGES: DONE!!!")
+
+def create_pdf():
+    pdf_out_path = Path(proc_dir)
+
+    subdirs = [x for x in pdf_out_path.iterdir() if x.is_dir()]
+
+    for dir in subdirs:
+        images = sorted(dir.glob(f"*{out_ext}"))
+        pdf = pdf_out_path.joinpath(f"{re.sub(r"-\d{6}", "", dir.name)}.pdf")
+        print(f"Creating {pdf}...")
+        with open(pdf, "wb") as f:
+            f.write(img2pdf.convert([str(p) for p in images]))
+
+
+
+
+if __name__ == "__main__":   # VERY IMPORTANT ON WINDOWS
+    processing_image() 
+    create_pdf()
+    input("DONE!!!!!!")
