@@ -1,0 +1,1 @@
+python ..\..\FileProcessing.py %CD%
