@@ -6,20 +6,37 @@ import img2pdf
 from pathlib import Path
 import re
 import psutil
-
+import shutil
 from pypdf import PdfReader
+
+
+
 
 
 
 #Support rotation: 0, 90, 180, 270
 rot = 0
 
-proc_dir = ".\\"
+strdir = ".\\"
+wdir = Path(strdir)
+
 max_process = psutil.cpu_count(logical=False)
 orig_ext = '.tif'
 out_ext = '.png'
 
-pdf_out_path = Path(proc_dir)
+def flat_file_structure():
+    for dirpath, _, filenames in os.walk(wdir):
+        for f in filenames:
+            full = Path(dirpath) / f
+            flat = "__xxx__".join(full.relative_to(wdir).parts)
+            full.rename(wdir / flat)
+            #print(f"{full} -> {wdir / flat}")
+    for x in wdir.iterdir():
+        if x.is_dir():
+            shutil.rmtree(x)
+
+
+
 
 
 def ghostscript_proc(task):
@@ -30,7 +47,7 @@ def ghostscript_proc(task):
 
 def extract_pdf():
     jobs = []
-    for pdf in Path(proc_dir).glob("*.pdf"):
+    for pdf in Path(strdir).glob("*.pdf"):
         pdf.parent.joinpath(pdf.stem).mkdir(exist_ok=True)
         for pn in range(1, len(PdfReader(pdf).pages) + 1):
             jobs.append((pdf.stem, pn))
@@ -50,7 +67,7 @@ def imagemagick_proc(task):
     return subprocess.run(cmd, shell=True)
 
 def process_image():
-    all_files = glob.glob(f"{proc_dir}\\**\\*.tif", recursive=True)
+    all_files = glob.glob(f"{strdir}\\**\\*.tif", recursive=True)
     jobs = []
     for origimg in all_files:
         outimg = f"{os.path.splitext(origimg)[0]}{out_ext}"
@@ -62,19 +79,20 @@ def process_image():
 
 def img2pdf_proc(dir):
     images = sorted(dir.glob(f"*{out_ext}"))
-    pdf = pdf_out_path.joinpath(f"{re.sub(r"-\d{6}", "", dir.name)}-OUT.pdf")
+    pdf = wdir.joinpath(f"__OUT_{re.sub(r"-\d{6}", "", dir.name)}.pdf")
     print(f"Creating {pdf}...")
     with open(pdf, "wb") as f:
         f.write(img2pdf.convert([str(p) for p in images]))
 
 def create_pdf():
-    subdirs = [x for x in pdf_out_path.iterdir() if x.is_dir()]
+    subdirs = [x for x in wdir.iterdir() if x.is_dir()]
 
     with ProcessPoolExecutor(max_workers=max_process) as pool:
         pool.map(img2pdf_proc, subdirs)
 
 
 if __name__ == "__main__":   # VERY IMPORTANT ON WINDOWS
+    flat_file_structure()
     extract_pdf()
     process_image() 
     create_pdf()
