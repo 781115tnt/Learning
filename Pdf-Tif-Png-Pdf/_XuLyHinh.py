@@ -41,7 +41,7 @@ def flat_file_structure():
 
 def ghostscript_proc(task):
     filename, pagenumber = task
-    cmd = f"gswin64c.exe -o \".\\{filename}\\{pagenumber}.tif\" -sDEVICE=tiff24nc -sCompression=lzw -r300 -dUseCropBox  -dFirstPage={pagenumber} -dLastPage={pagenumber} \"{filename}\".pdf"
+    cmd = f"gswin64c.exe -o \".\\{filename}\\{pagenumber:010d}.tif\" -sDEVICE=tiff24nc -sCompression=lzw -r300 -dUseCropBox  -dFirstPage={pagenumber} -dLastPage={pagenumber} \"{filename}\".pdf"
     print(cmd)
     return subprocess.run(cmd, shell=True)
 
@@ -82,7 +82,7 @@ def img2pdf_proc(dir):
     pdf = wdir.joinpath(f"__OUT_{re.sub(r"-\d{6}", "", dir.name)}.pdf")
     print(f"Creating {pdf}...")
     with open(pdf, "wb") as f:
-        f.write(img2pdf.convert([str(p) for p in images]))
+        f.write(img2pdf.convert([str(p) for p in images],  pdf_version=(1, 3)))
 
 def create_pdf():
     subdirs = [x for x in wdir.iterdir() if x.is_dir()]
