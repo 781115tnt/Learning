@@ -32,15 +32,13 @@ def ghostscript_proc(cmd):
 ########################### MULTIPROCESS-SAFE CODE ############################
 if __name__ == "__main__":   # VERY IMPORTANT ON WINDOWS
 
-    GS_USE_TIFF = 1
-
     TIF = ".tif"
     PNG = ".png"
     OUTDIR = "_out"
     IM_COLOR_FORMAT = "-colors 64 -define png:color-type=3"
     IM_BW_FORMAT = "-monochrome -compress Group4"
     IM_PROC_STR = "-fuzz 15% -fill \"red\" -opaque \"rgb(220,30,30)\" -fill \"blue\" -opaque \"rgb(30,30,170)\" -fill \"black\" -opaque \"rgb(20,20,20)\""
-    GS_24BIT_DEVICE= "-sDEVICE=tiff24nc -sCompression=lzw" if GS_USE_TIFF == 1 else "-sDEVICE=png16m"
+    GS_24BIT_DEVICE= "-sDEVICE=png16m" #"-sDEVICE=tiff24nc -sCompression=lzw"
     GS_1BIT_DEVICE= "-sDEVICE=tiffg4"
     GS_R600 = "-r600"
     GS_R300 = "-r300"
@@ -59,7 +57,7 @@ if __name__ == "__main__":   # VERY IMPORTANT ON WINDOWS
     wdir_path = Path(wdir)
 
 
-    gs_output_ext = TIF if GS_USE_TIFF == 1 else PNG
+    gs_output_ext = PNG
     gs_resstr = GS_R300
     gs_cluster = "1"
     gs_clusterstr = "-dMinFeatureSize=1"
@@ -84,34 +82,30 @@ if __name__ == "__main__":   # VERY IMPORTANT ON WINDOWS
     gsout_path = wdir_path / GS_OUT
     imout_path = wdir_path / IM_OUT
 
-    if input("Khong xu ly dam/nhat/xoa cham khong (Y?)").lower() == "y":
+    imgp = input("Khong xu ly dam/nhat/xoa cham khong (Y?)")
+    if imgp == "y" or imgp == "Y":
         imgProc = False
-        im_procstr = ""
-        print("-> Khong xu ly dam/nhat/xoa cham!")
+        im_procstr = " "
+        print("-> Khong thay doi dam/nhat/xoa cham!")
     else:
         imgProc = True
         print("-> Co thay doi dam/nhat/xoa cham!")
 
-        if (inval := input("Quay hinh luc xu ly (nhap 90, 180, 270):")).lower() in ("90", "180", "270"):
+        im_rot = input("Quay hinh luc xu ly (nhap 90, 180, 270):")
+        if not (im_rot == "90" or im_rot == "180" or im_rot == "270") :
             print("-> Khong quay hinh!")
-            im_rotatestr = ""
+            im_rotatestr = " "
         else:
-            print(f"-> Quay hinh {inval}")
-            im_rotatestr = f"-im_rotate {inval}"
+            print(f"-> Quay hinh {im_rot}")
+            im_rotatestr = f"-im_rotate {im_rot}"
 
-        if input("Xoa cham (Y?):").lower() == "y":
+        dot = input("Xoa cham (Y?):")
+        if dot == "y" or dot == "Y":
             print("-> Co Xoa Cham!")
             im_blurstr = "-blur 2x5"
             im_levelstr = "-level 45%,85%"
         else:
             print(f"-> Khong xoa cham!")
-        
-        if input("Tang Do+Duong cho moc va chu ky (Y?):").lower() == "y":
-            im_procstr = IM_PROC_STR
-        else: 
-            print("Tang Do+Duong cho moc va chu ky!")
-            im_procstr = ""
-
 
     bw = input("Ra file 1-bit (Y?):")
     if bw == "y" or bw == "Y":
@@ -120,8 +114,10 @@ if __name__ == "__main__":   # VERY IMPORTANT ON WINDOWS
         im_formatstr = IM_BW_FORMAT
         if imgProc:
             gs_device = GS_24BIT_DEVICE
+            gs_output_ext = PNG
         else:
             gs_device = GS_1BIT_DEVICE
+            gs_output_ext = TIF
     else:
         im_output_ext = PNG
         if imgProc:
@@ -203,7 +199,7 @@ if __name__ == "__main__":   # VERY IMPORTANT ON WINDOWS
         if imgProc:
             tasks = []
             for tpath in imgs:
-                ofile = imout_path / tpath.parent.name / f"{tpath.stem}{im_output_ext}"
+                ofile = imout_path / tpath.parent.name / tpath.name
                 cmd = f"magick \"{str(tpath)}\" -limit memory 16GiB {im_procstr} {im_rotatestr} {im_blurstr} {im_levelstr} {im_formatstr} \"{str(ofile)}\""
                 tasks.append(cmd)  
             #for t in tasks: print(t)   
