@@ -1,0 +1,8 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\Directory\Background\shell\XuLyHinh]
+@="Xu ly folder"
+"Icon"="C:\\Users\\Admin\\AppData\\Local\\Programs\\Python\\Python314\\python.exe"
+
+[HKEY_CLASSES_ROOT\Directory\Background\shell\XuLyHinh\command]
+@="cmd.exe /k pushd \"%V\" && \"C:\\Users\\Admin\\AppData\\Local\\Programs\\Python\\Python314\\python.exe\" \"C:\\_pyscripts\\XuLyHinh.py\""
